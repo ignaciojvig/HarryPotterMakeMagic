@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { WizardEntity } from 'src/api/3 - domain/Wizard/wizard.entity';
 import { Repository } from 'typeorm';
@@ -17,6 +21,18 @@ export class WizardService extends BaseService {
 
   async getAllWizards(): Promise<WizardEntity[]> {
     return await this.wizardRepository.find();
+  }
+
+  async getAllWizardsFilteringByHouse(
+    houseId: string,
+  ): Promise<WizardEntity[]> {
+    if (houseId.length !== 24) {
+      throw new UnprocessableEntityException(
+        'The House Id length must be equal to 24 characters',
+      );
+    }
+
+    return await this.wizardRepository.find({ where: { house: houseId } });
   }
 
   async getWizardById(id: number): Promise<WizardEntity> {

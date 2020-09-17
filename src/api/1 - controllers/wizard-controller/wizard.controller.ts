@@ -20,6 +20,13 @@ export class WizardController {
     return await this.wizardService.getAllWizards();
   }
 
+  @Get('by-house')
+  async getAllWizardsFilteringByHouse(
+    @Query('house') houseId: string,
+  ): Promise<WizardEntity[]> {
+    return await this.wizardService.getAllWizardsFilteringByHouse(houseId);
+  }
+
   @Get(':id')
   async getWizardById(@Param('id') id: number): Promise<WizardEntity> {
     return await this.wizardService.getWizardById(id);

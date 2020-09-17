@@ -14,7 +14,9 @@ export class WizardEntity {
   })
   @Column()
   @IsNotEmpty()
-  @Length(5, 30)
+  @Length(5, 30, {
+    message: 'The Name of the Wizard must have between 5 and 30 characters',
+  })
   name: string;
 
   @ApiProperty({
@@ -24,7 +26,9 @@ export class WizardEntity {
   })
   @Column()
   @IsNotEmpty()
-  @Length(10, 50)
+  @Length(10, 50, {
+    message: 'The Name of the School must have between 10 and 50 characters',
+  })
   school: string;
 
   @ApiProperty({
@@ -35,8 +39,9 @@ export class WizardEntity {
   })
   @Column()
   @IsNotEmpty()
-  @MaxLength(24)
-  @MinLength(24)
+  @Length(24, 24, {
+    message: 'The House Id length must be equal to 24 characters',
+  })
   house: string;
 
   @ApiProperty({
@@ -46,6 +51,8 @@ export class WizardEntity {
   })
   @Column()
   @IsNotEmpty()
-  @Length(3, 15)
+  @Length(3, 15, {
+    message: 'The Name of the Patronus must have between 3 and 15 characters',
+  })
   patronus: string;
 }
