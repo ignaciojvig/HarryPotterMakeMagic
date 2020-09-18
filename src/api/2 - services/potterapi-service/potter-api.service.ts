@@ -4,28 +4,31 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { CommandHandler } from 'src/api/4 - infra/command-handler/command-handler';
-import { ICommandResult } from 'src/api/4 - infra/command-handler/icommand-result';
+import { CrosscuttingResultHandler } from 'src/api/4 - infra/crosscutting-result-handler/crosscutting-result-handler';
+import { ICrosscuttingResult } from 'src/api/4 - infra/crosscutting-result-handler/icrosscutting-result';
+import { BaseService } from '../base-service/base.service';
 
 @Injectable()
-export class PotterApiService {
+export class PotterApiService extends BaseService {
   constructor(
     private configService: ConfigService,
     private httpService: HttpService,
-    private command: CommandHandler,
-  ) {}
+    private crosscuttingHandler: CrosscuttingResultHandler,
+  ) {
+    super(crosscuttingHandler);
+  }
 
   async validateHouseId(
     houseId: string,
     potterApiKey: string,
-  ): Promise<ICommandResult> {
+  ): Promise<ICrosscuttingResult> {
     return await this.requestToPotterApi(houseId, potterApiKey);
   }
 
   private async requestToPotterApi(
     houseId: string,
     potterApiKey: string,
-  ): Promise<ICommandResult> {
+  ): Promise<ICrosscuttingResult> {
     const isValid = await this.httpService
       .get<any[]>(this.getPotterAPIFullPath(houseId, potterApiKey))
       .toPromise()
@@ -34,18 +37,18 @@ export class PotterApiService {
     switch (isValid.status || isValid.response.status) {
       case 200:
         if (isValid.data.length === 0) {
-          this.command.setCommandAsFailed(
+          this.crosscuttingHandler.setCrosscuttingResultAsFailed(
             new UnprocessableEntityException(
               'The given Id on the property House is not related to a House as specified by PotterAPI Documentation. Verify the value from it and try again',
             ),
           );
         } else {
-          this.command.setCommandAsSuccessful(true);
+          this.crosscuttingHandler.setCrosscuttingResultAsSuccessful(true);
         }
         break;
 
       case 401:
-        this.command.setCommandAsFailed(
+        this.crosscuttingHandler.setCrosscuttingResultAsFailed(
           new UnprocessableEntityException(
             'A problem occured while trying to authenticate to PotterAPI. The API Key might be wrong',
           ),
@@ -53,7 +56,7 @@ export class PotterApiService {
         break;
 
       default:
-        this.command.setCommandAsFailed(
+        this.crosscuttingHandler.setCrosscuttingResultAsFailed(
           new UnprocessableEntityException(
             "The server couldn't access PotterAPI in order to perform validations. We are terribly sorry. Try again later",
           ),
@@ -61,7 +64,7 @@ export class PotterApiService {
         break;
     }
 
-    return this.command.getCommandResult();
+    return this.crosscuttingHandler.getCrosscuttingResult();
   }
 
   private getPotterAPIFullPath(houseId: string, potterApiKey: string): string {

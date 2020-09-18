@@ -1,13 +1,18 @@
-import { BadRequestException, HttpException, Injectable } from '@nestjs/common';
-import { ICommandResult } from 'src/api/4 - infra/command-handler/icommand-result';
+import { Injectable } from '@nestjs/common';
+import { CrosscuttingResultHandler } from 'src/api/4 - infra/crosscutting-result-handler/crosscutting-result-handler';
+import { ICrosscuttingResult } from 'src/api/4 - infra/crosscutting-result-handler/icrosscutting-result';
 
 @Injectable()
 export class BaseService {
-  handleCommandResponse(commandResult: ICommandResult) {
-    if (!commandResult.operationResult) {
-      throw commandResult.resultingData;
+  constructor(
+    private injectedCrosscuttingHandler?: CrosscuttingResultHandler,
+  ) {}
+
+  handleCommandResponse(crosscuttingResult: ICrosscuttingResult) {
+    if (!crosscuttingResult.result) {
+      throw crosscuttingResult.resultingData;
     }
 
-    return commandResult.resultingData;
+    return crosscuttingResult.resultingData;
   }
 }
