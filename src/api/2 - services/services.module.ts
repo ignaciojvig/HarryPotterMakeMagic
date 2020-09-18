@@ -9,7 +9,7 @@ import { WizardService } from './wizard-service/wizard.service';
   imports: [
     InfraModule,
     TypeOrmModule.forFeature([WizardEntity]),
-    HttpModule.register({ timeout: 5000, maxRedirects: 3 }),
+    HttpModule.register({ timeout: 5000 }),
   ],
   providers: [WizardService, PotterApiService],
   exports: [WizardService, PotterApiService],

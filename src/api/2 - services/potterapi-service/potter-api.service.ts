@@ -7,6 +7,7 @@ import { ConfigService } from '@nestjs/config';
 import { CrosscuttingResultHandler } from 'src/api/4 - infra/crosscutting-result-handler/crosscutting-result-handler';
 import { ICrosscuttingResult } from 'src/api/4 - infra/crosscutting-result-handler/icrosscutting-result';
 import { BaseService } from '../base-service/base.service';
+import { catchError, retry } from 'rxjs/operators';
 
 @Injectable()
 export class PotterApiService extends BaseService {
@@ -29,8 +30,16 @@ export class PotterApiService extends BaseService {
     houseId: string,
     potterApiKey: string,
   ): Promise<ICrosscuttingResult> {
+    const retryAttempts = 0;
+
     const isValid = await this.httpService
       .get<any[]>(this.getPotterAPIFullPath(houseId, potterApiKey))
+      .pipe(
+        retry(3),
+        catchError(err => {
+          throw err;
+        }),
+      )
       .toPromise()
       .catch(err => err);
 
