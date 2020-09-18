@@ -9,6 +9,7 @@ import { WizardEntity } from 'src/api/3 - domain/Wizard/wizard.entity';
       database: 'make-magic.sqlite3',
       entities: [WizardEntity],
       synchronize: true,
+      keepConnectionAlive: true,
     }),
   ],
 })

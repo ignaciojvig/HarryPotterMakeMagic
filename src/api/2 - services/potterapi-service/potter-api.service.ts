@@ -36,7 +36,10 @@ export class PotterApiService extends BaseService {
 
     switch (isValid.status || isValid.response.status) {
       case 200:
-        if (isValid.data.length === 0) {
+        if (
+          isValid.data.name === 'CastError' ||
+          (Array.isArray(isValid.data) && isValid.data.length === 0)
+        ) {
           this.crosscuttingHandler.setCrosscuttingResultAsFailed(
             new UnprocessableEntityException(
               'The given Id on the property House is not related to a House as specified by PotterAPI Documentation. Verify the value from it and try again',
@@ -67,7 +70,7 @@ export class PotterApiService extends BaseService {
     return this.crosscuttingHandler.getCrosscuttingResult();
   }
 
-  private getPotterAPIFullPath(houseId: string, potterApiKey: string): string {
+  getPotterAPIFullPath(houseId: string, potterApiKey: string): string {
     return `${this.configService.get<string>(
       'POTTERAPI_HOUSE_VALIDATION_URL',
     )}/${houseId}?key=${potterApiKey}`;

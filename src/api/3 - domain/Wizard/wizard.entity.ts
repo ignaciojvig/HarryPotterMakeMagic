@@ -1,10 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, Length, MaxLength, MinLength } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsOptional,
+  Length,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class WizardEntity {
   @PrimaryGeneratedColumn()
+  @IsOptional()
   id: number;
 
   @ApiProperty({

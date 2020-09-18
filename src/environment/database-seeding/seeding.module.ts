@@ -10,6 +10,10 @@ export class SeedingModule implements NestModule {
   constructor(private readonly entityManager: EntityManager) {}
 
   async configure(): Promise<void> {
+    await this.seedDatabase;
+  }
+
+  async seedDatabase(): Promise<void> {
     const defaultWizard = await this.entityManager.findOne(WizardEntity, {
       id: 1,
     });
