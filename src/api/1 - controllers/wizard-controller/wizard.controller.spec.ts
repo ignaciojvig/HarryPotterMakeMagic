@@ -267,28 +267,4 @@ describe('WizardController', () => {
       done();
     });
   });
-
-  it('Remove seeded Wizard in order to test Seeding', done => {
-    wizardController.deleteWizard(1).then(() => {
-      done();
-    });
-  });
-
-  it('Reloading Seeding Module', async done => {
-    const seedingModule = testingModule.get<SeedingModule>(SeedingModule);
-
-    new Promise(async () => {
-      await seedingModule.seedDatabase();
-      done();
-    });
-  });
-
-  it('Reattempting Seeding with Default Wizard already Existing', async done => {
-    const seedingModule = testingModule.get<SeedingModule>(SeedingModule);
-
-    new Promise(async () => {
-      await seedingModule.seedDatabase();
-      done();
-    });
-  });
 });
