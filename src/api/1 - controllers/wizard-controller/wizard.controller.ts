@@ -52,7 +52,7 @@ export class WizardController {
   }
 
   @Delete(':id')
-  async deleteWizard(id: number): Promise<void> {
+  async deleteWizard(@Param('id') id: number): Promise<void> {
     await this.wizardService.deleteWizard(id);
   }
 }
