@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { CommandHandler } from './command-handler/command-handler';
+import { CrosscuttingResultHandler } from './crosscutting-result-handler/crosscutting-result-handler';
 
 @Module({
-  providers: [CommandHandler],
-  exports: [CommandHandler],
+  providers: [CrosscuttingResultHandler],
+  exports: [CrosscuttingResultHandler],
 })
 export class InfraModule {}

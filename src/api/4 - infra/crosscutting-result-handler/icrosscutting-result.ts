@@ -1,6 +1,6 @@
 import { HttpException } from '@nestjs/common';
 
-export interface ICommandResult {
+export interface ICrosscuttingResult {
   resultingData: any | HttpException;
-  operationResult: boolean;
+  result: boolean;
 }
