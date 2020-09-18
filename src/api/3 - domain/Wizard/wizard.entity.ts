@@ -20,7 +20,7 @@ export class WizardEntity {
     maximum: 30,
   })
   @Column()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'The Name of the Wizard must not be empty' })
   @Length(5, 30, {
     message: 'The Name of the Wizard must have between 5 and 30 characters',
   })
@@ -32,7 +32,7 @@ export class WizardEntity {
     maximum: 50,
   })
   @Column()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'The Name of the School must not be empty' })
   @Length(10, 50, {
     message: 'The Name of the School must have between 10 and 50 characters',
   })
@@ -45,7 +45,7 @@ export class WizardEntity {
     maximum: 24,
   })
   @Column()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'The House Id must not be empty' })
   @Length(24, 24, {
     message: 'The House Id length must be equal to 24 characters',
   })
@@ -57,7 +57,7 @@ export class WizardEntity {
     maximum: 15,
   })
   @Column()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'The Name of the Patronus must not be empty' })
   @Length(3, 15, {
     message: 'The Name of the Patronus must have between 3 and 15 characters',
   })
