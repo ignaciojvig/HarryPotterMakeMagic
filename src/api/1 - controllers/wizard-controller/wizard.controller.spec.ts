@@ -112,10 +112,14 @@ describe('WizardController', () => {
 
   it('Getting Wizard by Id, but with existing Wizard by Id', done => {
     const wizardParam = 1;
+    const seedingModule = testingModule.get<SeedingModule>(SeedingModule);
 
-    wizardController.getWizardById(wizardParam).then(x => {
-      expect(x).toBeTruthy();
-      done();
+    new Promise(async () => {
+      await seedingModule.seedDatabase();
+      wizardController.getWizardById(wizardParam).then(x => {
+        expect(x).toBeTruthy();
+        done();
+      });
     });
   });
 
