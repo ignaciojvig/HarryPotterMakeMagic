@@ -30,8 +30,6 @@ export class PotterApiService extends BaseService {
     houseId: string,
     potterApiKey: string,
   ): Promise<ICrosscuttingResult> {
-    const retryAttempts = 0;
-
     const isValid = await this.httpService
       .get<any[]>(this.getPotterAPIFullPath(houseId, potterApiKey))
       .pipe(
